@@ -1,0 +1,5 @@
+export DB_NAME=incomeExpense
+export DB_USER=postgres
+export DB_PASS=07061651502
+export DB_HOST=localhost
+export DB_PORT=5432 
