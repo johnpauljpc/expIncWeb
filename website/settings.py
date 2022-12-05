@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'expenses',
     'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
