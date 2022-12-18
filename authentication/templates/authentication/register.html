@@ -18,20 +18,25 @@
             <form action="" method="post">
 
                 <div class="form-group">
-                    <input type="text" name="username" id="usernameField" placeholder="Username" class="form-control form-control-sm">
+                    <input type="text" name="username" id="usernameField" placeholder="Username" class=" my-2 px-4 form-control form-control-sm">
                 </div>
-                <div class=" feedback_invalid invalid-feedback" style="display: none;">
+                <div class=" feedback_invalid invalid-feedback" style="display: none;"></div>
+                <div class=" feedback_valid valid-feedback" style="display: none;"></div>
+                <div class=" text-success checking" style="display: block;"></div>
 
-                </div>
-
-                <div class="form-group">
-                    <input type="email" name="email" id="emailField" placeholder="yourEmail@domain.com" class="form-control form-control-sm">
-                </div>
 
                 <div class="form-group">
-                    <input type="password" name="password" id="passWord" placeholder="password" class="form-control form-control-sm mt-3">
-                    <input type="password" name="password2" id="passWord2" placeholder="confirm password" class="form-control form-control-sm">
-                    <small class="float-end">Show</small><br>
+                    <input type="email" name="email" id="emailField"
+                     placeholder="yourEmail@domain.com" class=" mb-2 form-control form-control-sm px-4" style="border-radius: 60px;">
+                        <span class="feedback_Email_invalid invalid-feedback " style=" background-color: #eee ;"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="password" name="password" id="password1Field" placeholder="password" class=" px-4 form-control form-control-sm mt-3">
+                    <input type="password" name="password2" id="passWord2" 
+                    placeholder="confirm password" class=" my-2 form-control form-control-sm px-4" style="border-radius: 60px;">
+                    <small class="float-end showPass">Show</small><br>
                 </div>
                
                 <div class="d-grid form-group">

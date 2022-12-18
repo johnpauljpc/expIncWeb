@@ -48,3 +48,12 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
   }
+
+  .showPass{
+    cursor: pointer;
+    transition: all;
+  }
+
+  .showPass:hover{
+    transform: scale(1.2);
+  }

@@ -1,17 +1,35 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views import View
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 import json
 from django.http import JsonResponse
+from validate_email import validate_email
 
 # Create your views here.
+class EmailVaidation(View):
+    def  post(self, request):
+        data = json.loads(request.body)
+        email = data['email']
+
+        if not validate_email(email):
+            return JsonResponse({'email_error':'email is invalid'}, status=400)
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'email_error':"Email already taken"}, status=409)
+      
+
+        return JsonResponse({'email_valid':True}, status=200)
+        
+
+
 class usernameValidation(View):
     def post(self, request):
         data = json.loads(request.body)
         username = data['username']
 
         if not str(username).isalnum():
-            return JsonResponse({'username_error':'Username should not contain alphanumeric'}, status = 400)
+            return JsonResponse({'username_error':'Username should contain only alphanumeric'}, status = 400)
         if User.objects.filter(username=username).exists():
             return JsonResponse({'username_error':'Username exists already, choose another'}, status = 409)
 
