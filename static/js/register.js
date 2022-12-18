@@ -2,6 +2,7 @@ const usernameField = document.querySelector("#usernameField")
 const feedBackArea = document.querySelector(".feedback_invalid")
 const emailField = document.querySelector("#emailField")
 const password1Field = document.querySelector("#password1Field")
+const password2Field = document.querySelector("#password2Field")
 const feedback_Email_invalid = document.querySelector(".feedback_Email_invalid")
 const feedback_valid = document.querySelector(".feedback_valid")
 const checking = document.querySelector(".checking")
@@ -13,11 +14,13 @@ const passwordToggleHandler = (e) =>{
     if (showPass.textContent === 'Show'){
         showPass.textContent = "Hide"
         password1Field.setAttribute('type', 'text')
+        //password2Field.setAttribute('type', 'text')
 
     }
     else{
         showPass.textContent = "Show"
         password1Field.setAttribute('type', 'password')
+        //password2Field.setAttribute('type', 'password')
     }
 }
 
