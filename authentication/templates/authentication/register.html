@@ -16,9 +16,11 @@
             <div class="card-body">
                 <h4>Register for a free account</h4>
             <form action="" method="post">
+                {% include 'partials/messages.html'%}
+                {% csrf_token %}
 
                 <div class="form-group">
-                    <input type="text" name="username" id="usernameField" placeholder="Username" class=" my-2 px-4 form-control form-control-sm">
+                    <input type="text" name="username" id="usernameField" placeholder="Username" value="{{fieldValues.username}}" class=" my-2 px-4 form-control form-control-sm">
                 </div>
                 <div class=" feedback_invalid invalid-feedback" style="display: none;"></div>
                 <div class=" feedback_valid valid-feedback" style="display: none;"></div>
@@ -26,21 +28,21 @@
 
 
                 <div class="form-group">
-                    <input type="email" name="email" id="emailField"
+                    <input type="email" name="email" id="emailField", value="{{fieldValues.email}}"
                      placeholder="yourEmail@domain.com" class=" mb-2 form-control form-control-sm px-4" style="border-radius: 60px;">
                         <span class="feedback_Email_invalid invalid-feedback " style=" background-color: #eee ;"></span>
                 </div>
 
 
                 <div class="form-group">
-                    <input type="password" name="password" id="password1Field" placeholder="password" class=" px-4 form-control form-control-sm mt-3">
+                    <input type="password" name="password1" id="password1Field" value="{{fieldValues.password1}}" placeholder="password" class=" px-4 form-control form-control-sm mt-3">
                     <input type="password" name="password2" id="password2Field" 
                     placeholder="confirm password" class=" my-2 form-control form-control-sm px-4" style="border-radius: 60px;">
                     <small class="float-end showPass">Show</small><br>
                 </div>
                
                 <div class="d-grid form-group">
-                    <input type="button" value="Register" class="btn d-block btn-primary mt-2 ">
+                    <button class="btn btn-primary submitButton">Register</button>
                 </div>
             </form>
             </div>

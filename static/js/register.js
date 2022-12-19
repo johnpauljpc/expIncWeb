@@ -7,6 +7,7 @@ const feedback_Email_invalid = document.querySelector(".feedback_Email_invalid")
 const feedback_valid = document.querySelector(".feedback_valid")
 const checking = document.querySelector(".checking")
 const showPass = document.querySelector(".showPass")
+const submitButton = document.querySelector(".submitButton")
 
 const pass1Val = password1Field.textContent 
 
@@ -56,12 +57,14 @@ usernameField.addEventListener("keyup", function(e){
     }
     
     if (data.username_error){
+        // submitButton.disabled = true
         usernameField.classList.add("is-invalid");
         feedBackArea.style.display = 'block';
         feedBackArea.innerHTML = (`<p>${data.username_error}</p>`);
 
     }
     else{
+        // submitButton.removeAttribute('disabled')
         feedback_valid.classList.add("is-valid")
         feedback_valid.style.display = "block"
         setTimeout(myTimeout1, 2000)
@@ -93,10 +96,14 @@ emailField.addEventListener("keyup", (e)=>{
         console.log('data::>>', data)
 
         if(data.email_error){
+            submitButton.disabled = true
             emailField.classList.add("is-invalid")
             
             feedback_Email_invalid.innerHTML=`${data.email_error}`
 
+        }
+        else{
+            submitButton.removeAttribute('disabled')
         }
        
     })
