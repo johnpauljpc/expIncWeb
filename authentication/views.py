@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.views import View
 from django.http import HttpResponse
@@ -8,8 +8,17 @@ from django.http import JsonResponse
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode 
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+from .utils import token_generator
+from django.contrib.auth import authenticate, login, logout, decorators
+
+
 
 # Create your views here.
+
 class EmailVaidation(View):
     def  post(self, request):
         data = json.loads(request.body)
@@ -78,9 +87,29 @@ class registrationView(View):
                 #or 
                 #user.set_password(password1)
                 user.is_active = False
+
+                #path to view
+                #--- getting domain we are in
+                #--- relative url to verification
+                #--- encoded uid
+                #--- token
+
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                #if 'first line'.encode('utf-8') in result[0]:
+                domain =  get_current_site(request).domain
+                link = reverse("activate", kwargs={
+                    'uidb64':uidb64, 'token':token_generator.make_token(user)})
+                print("************************** Domain ************************")
+                print(domain)
+                print("************************** Link ************************")
+                print(link)
+
+
+                activate_url = 'http://'+domain+link
                
                 email_subject = "Account Activation"
-                email_body = "Your account has been created follow this link to activate your account"
+                email_body = "Hi" + user.username + "Your account has been created follow the link below to verify and activate your account\n\
+                "+ activate_url
                 email_from = "iam.jpcg@gmail.com"
                 
 
@@ -95,10 +124,80 @@ class registrationView(View):
 
                 user.save()
                 messages.success(request, "account created")
-        
+                return render(request, 'authentication/register.html')
        
 
 
 
        
         return render(request, 'authentication/register.html')
+
+class verificationView(View):
+    def get(self, request, uidb64, token):
+
+        try:
+            id = force_str(urlsafe_base64_decode(uidb64))
+            print("************************  ID ********************")
+            print(id)
+            user = User.objects.get(pk=id)
+
+            if not token_generator.check_token(user, token):
+                return redirect('login'+ '?message=' +'User already activated')
+
+
+            if user.is_active:
+                return redirect('login')
+            user.is_active = True
+            user.save()
+
+            messages.success(request, 'Account activated successfully')
+            return redirect('login')
+
+        except Exception as ex:
+            pass
+
+
+
+        return redirect("login")
+
+
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'authentication/login.html') 
+
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password1']
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    messages.success(request, 'welcome  ' + user.username + ' You are now logged in')
+                    return redirect('index')
+            
+                messages.error(request, 'Your account is not active, please check your email')
+                return render(request, 'authentication/login.html')
+
+            messages.error(request, 'Your credentials are invalid, try again')
+            return render(request, 'authentication/login.html')
+        
+        messages.warning(request, "Please fill all fields")
+        return render(request, 'authentication/login.html')
+    
+
+# class LogoutView(View):
+    
+#     # def get(self, request):
+#     #     return render(request, "authentication/logout.html")
+
+
+class LogoutView(View):
+    def get(self, request):
+        return render(request, 'authentication/logout.html')
+    def post(self, request):
+        logout(request)
+        messages.info(request, "You have been logged out")
+        return render(request, 'authentication/logout.html')
