@@ -3,10 +3,25 @@
 Dashboard
 {% endblock title %}
 {% block content %}
-{% include 'partials/messages.html'%}
-<h2> Expense List</h2>
+<div class="container mb-4 ">
+    {% include 'partials/messages.html'%}
+    <div class="row">
+        <div class="col-sm-9 bg-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Expense</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Expense</li>></li>
+                </ol>
+            
+            </nav>
+        </div>
+    
+        <div class="col-sm-3">
+            <a href="{% url 'add-expense'%}" class="btn btn-primary">Add Expense</a>
+        </div>
+    
+    </div>
+    
+</div>
 
-<ul class="list-group">
-<li class="list-group-item">Pray for an hour</li>
-</ul>
 {% endblock content %}

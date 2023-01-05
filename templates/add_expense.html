@@ -2,10 +2,16 @@
 {% block title %}Add Expense{% endblock title %}
 
 {% block content %}
-<h1>Add Expense</h1>
-<ul class="list-group">
-<li class="list-group-item">Prayed</li>
-<li class="list-group-item">Studied my Bible</li>
 
-</ul>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'expenses'%}">Expense</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Expense</li>></li>
+    </ol>
+
+</nav>
+
+<form action="{% url 'expenses' %}" method="post">
+    
+</form>
 {% endblock content %}
