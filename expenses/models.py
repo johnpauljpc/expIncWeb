@@ -6,10 +6,11 @@ from django.contrib.auth.models import User
 
 class Expense(models.Model):
     amount = models.FloatField()
-    date = models.DateTimeField(default = now)
+    date = models.DateField(default=now)
     description = models.TextField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=30)
+    #category = models.ForeignKey('category', on_delete=models.CASCADE)
+    category = models.CharField(max_length=100)
 
 
     def __str__(self) -> str:
@@ -17,3 +18,14 @@ class Expense(models.Model):
 
     class Meta:
         ordering=['-date']
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length= 100)
+
+    def __str__(self):
+        return self.name
+    # definning how we want the model name to be displayed in our admin panel
+    class Meta:
+        verbose_name_plural = "Categories"

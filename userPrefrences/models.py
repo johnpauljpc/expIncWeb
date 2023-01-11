@@ -8,3 +8,6 @@ class userPrefrences(models.Model):
 
     def __str__(self):
         return f'user {self.user}'
+    
+    class Meta:
+        verbose_name_plural = "user Prefrences"

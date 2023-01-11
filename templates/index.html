@@ -6,20 +6,48 @@ Dashboard
 <div class="container mb-4 ">
     {% include 'partials/messages.html'%}
     <div class="row">
-        <div class="col-sm-9 bg-light">
+        <div class="col-sm-8 bg-light">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="">Expense</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">My Expense</li>></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Expense</li>
                 </ol>
             
             </nav>
         </div>
     
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <a href="{% url 'add-expense'%}" class="btn btn-primary">Add Expense</a>
         </div>
     
+    </div>
+
+    <div class="contaner">
+        <table class="table table-stripped table-hover">
+            <thead>
+                <tr>
+                    <th>Amount (Currency)</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for expense in expenses%}
+                <tr>
+                    <td>{{expense.amount}}</td>
+                    <td>{{expense.category}}</td>
+                    <td>{{expense.description}}</td>
+                    <td>{{expense.date|date:"d, M. Y"}}</td>
+                    <td><a href="{% url 'update-expense' expense.id%}" class="btn btn-sm btn-warning">Edit</a></td>
+                    <td><a href="#" class="btn btn-sm btn-danger">Delete</a></td>
+                </tr>
+
+                {%endfor%}
+            </tbody>
+        </table>
     </div>
     
 </div>
