@@ -10,7 +10,7 @@ class Expense(models.Model):
     description = models.TextField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     #category = models.ForeignKey('category', on_delete=models.CASCADE)
-    category = models.CharField(max_length=100)
+    category = models.CharField(max_length=225)
 
 
     def __str__(self) -> str:
@@ -22,7 +22,7 @@ class Expense(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length= 100)
+    name = models.CharField(max_length= 225)
 
     def __str__(self):
         return self.name

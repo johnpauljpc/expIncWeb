@@ -6,6 +6,7 @@ from .models import Expense, Category
 from django.contrib import messages
 from django.utils.timezone import now
 from django.http import HttpResponse
+import pdb
 
 
 
@@ -55,7 +56,39 @@ def addExpense(request):
 
 def updateExpense(request, id):
     expense = Expense.objects.get(pk=id)
+    category = Category.objects.all()
+    
+    context = {'expense':expense, 'category':category}
 
     if request.method == 'POST':
+        amount = request.POST['amount']
+        date = request.POST['date']
+        description = request.POST['description']
+        category = request.POST['category']
 
-    return render(request, "expense-edit.html")
+        expense.owner = request.user
+        expense.amount = amount
+        expense.date = date
+        expense.description = description
+        expense.category = category
+        
+       
+        # print('****   ',category, '   *****')
+        # pdb.set_trace()
+        expense.save()
+
+        messages.success(request, "Successfully Updates an expense!")
+        return redirect('expenses')
+        
+
+    return render(request, "edit_expense.html", context)
+
+
+def deleteExpense(request, id):
+    print("****************************************************")
+    print(request)
+    print(id)
+    expense = Expense.objects.get(pk=id)
+    expense.delete()
+    messages.info(request, f"{expense.description} deleted")
+    return redirect('expenses')
