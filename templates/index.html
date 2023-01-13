@@ -36,7 +36,7 @@ Dashboard
             </thead>
 
             <tbody>
-                {% for expense in expenses%}
+                {% for expense in page_obj %}
                 <tr>
                     <td>{{expense.amount}}</td>
                     <td>{{expense.category}}</td>

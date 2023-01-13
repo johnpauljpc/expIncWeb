@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.utils.timezone import now
 from django.http import HttpResponse
 import pdb
+from django.core.paginator import Paginator
 
 
 
@@ -20,7 +21,14 @@ class index(LoginRequiredMixin,TemplateView):
     def get(self, request):
         expense = Expense.objects.filter(owner=request.user)
         category = Category.objects.all()
-        context = {'expenses':expense, 'category':category}
+
+        paginator = Paginator(expense, 2)
+        page_number = request.GET.get('page')
+        page_obj = Paginator.get_page(paginator, page_number)
+
+
+        context = {'expenses':expense, 'category':category,
+        'page_obj':page_obj}
         return render(request, 'index.html', context)
 
 def addExpense(request):
