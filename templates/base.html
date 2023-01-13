@@ -19,10 +19,12 @@
   </head>
   <body>
     
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+<!-- <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">JPC ExpenseIncome</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
+  data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" 
+  aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">JPC</span>
   </button>
   <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
@@ -30,12 +32,41 @@
     <form action="{% url 'logout' %}" method="post">
         {%csrf_token%}
        <input type="submit" class="text text-capitalize nav-link" value="Log out"> 
-        <!-- <button type="submit">Log Out</button> -->
+       {%comment%} <button type="submit">Log Out</button>{%endcomment%}
       </form> 
-      <!-- <a class="nav-link px-3 btn btn-primary" href="{% url 'logout' %}">Sign out</a> -->
+     {%comment%}<a class="nav-link px-3 btn btn-primary" href="{% url 'logout' %}">Sign out</a> {%endcomment%}
     </div>
   </div>
-</header>
+</header> -->
+
+
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 ms-0 " href="#">  &nbsp; Expenses - Tracker</a>
+
+  <ul
+    class="navbar-nav px-3"
+    style="display: flex; flex-direction: row; align-items: center;"
+  >
+    <li class="nav-item text-nowrap">
+      <span class="nav-link" href="">
+        ({{request.user.username}})
+      </span>
+    </li>
+
+    <li class="nav-item text-nowrap mt-3 ms-2">
+      <form action="{% url  'logout' %}" method="POST">
+        {% csrf_token %}
+        <input
+          class="text text-capitalize"
+          type="submit"
+          value="Sign out"
+        />
+      </form>
+    </li>
+  </ul>
+</nav>
+
+
 
 <div class="container-fluid">
   <div class="row">
