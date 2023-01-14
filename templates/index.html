@@ -1,10 +1,11 @@
+
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Dashboard
 {% endblock title %}
 {% block content %}
-<div class="container mb-4 ">
-    {% include 'partials/messages.html'%}
+<div class="container mt-4 ">
     <div class="row">
         <div class="col-sm-8 bg-light">
             <nav aria-label="breadcrumb">
@@ -16,14 +17,28 @@ Dashboard
             </nav>
         </div>
     
-        <div class="col-sm-4">
+        <div class="col-sm-4 ">
             <a href="{% url 'add-expense'%}" class="btn btn-primary">Add Expense</a>
-            <a href="#" class="btn btn-primary">Add Category</a>
+            <a href="#" class="btn btn-primary my-md-2 my-sm-2">Add Category</a>
+        </div>
+        </div>
+        {% include 'partials/messages.html'%}
+        <div class="row mt-4">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        <input type="text" class="form-control form-control-sm" id="searchField" placeholder="search" name="searchText">
+                    </form>
+                </div>
+            </div>
         </div>
     
     </div>
 
-    <div class="contaner">
+    <div class="contaner ">
+       <div class="app-table">
         <table class="table table-stripped table-hover">
             <thead>
                 <tr>
@@ -44,7 +59,6 @@ Dashboard
                     <td>{{expense.description}}</td>
                     <td>{{expense.date|date:"d, M. Y"}}</td>
                     <td><a href="{% url 'update-expense' expense.id%}" class="btn btn-sm btn-warning">Edit</a></td>
-</form>
                     <td>
                         <form action="{% url 'delete-expense' expense.id %}" method="post">
                             {%csrf_token%}
@@ -58,6 +72,31 @@ Dashboard
             </tbody>
             
         </table>
+       </div>
+
+    <div class="table-output">
+        <table class="table table-stripped table-hover">
+            <thead>
+                <tr>
+                    <th>Amount (Currency)</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody class="t-body">
+                
+            
+            </tbody>
+            
+        </table>
+
+    </div>
+    <div class="noReslt" style="display: none;">Result not found!</div>
+
         <nav class="pagination-container">
             <em>
                 Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
@@ -76,10 +115,13 @@ Dashboard
           
                 </ul>
           </nav>
+
     </div>
 
     
     
 </div>
+
+<script src="{% static 'js/searchField.js' %}"></script>
 
 {% endblock content %}

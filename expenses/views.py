@@ -5,9 +5,25 @@ from django.views.generic import TemplateView, ListView
 from .models import Expense, Category
 from django.contrib import messages
 from django.utils.timezone import now
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import pdb
 from django.core.paginator import Paginator
+import json
+
+
+def searchExpense(request):
+    
+    if request.method == 'POST':
+        search_str = json.loads(request.body).get('searchText')
+
+        expense = Expense.objects.filter(amount__istartswith = search_str, owner = request.user)\
+            |Expense.objects.filter(date__istartswith = search_str, owner = request.user)\
+               | Expense.objects.filter(description__istartswith = search_str, owner = request.user) \
+                    | Expense.objects.filter(category__istartswith = search_str, owner = request.user)
+
+        data = expense.values()
+        return JsonResponse(list(data), safe=False)
+    return HttpResponse("Hello")
 
 
 
