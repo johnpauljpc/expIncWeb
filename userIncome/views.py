@@ -26,7 +26,7 @@ def searchIncome(request):
 
         data = income.values()
         return JsonResponse(list(data), safe=False)
-    return HttpResponse("Hello")
+    return render(request, 'income/index.html')
 
 
 
