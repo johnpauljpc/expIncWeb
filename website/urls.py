@@ -19,6 +19,8 @@ from .views import index
 
 urlpatterns = [
     path('', include('expenses.urls')),
+    path('income/', include('userIncome.urls')),
+
     path('preference/', include("userPrefrences.urls")),
     path('auth/', include("authentication.urls")),
     path('admin/', admin.site.urls),

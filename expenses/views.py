@@ -16,10 +16,10 @@ def searchExpense(request):
     if request.method == 'POST':
         search_str = json.loads(request.body).get('searchText')
 
-        expense = Expense.objects.filter(amount__istartswith = search_str, owner = request.user)\
-            |Expense.objects.filter(date__istartswith = search_str, owner = request.user)\
-               | Expense.objects.filter(description__istartswith = search_str, owner = request.user) \
-                    | Expense.objects.filter(category__istartswith = search_str, owner = request.user)
+        expense = Expense.objects.filter(amount__icontains = search_str, owner = request.user)\
+            |Expense.objects.filter(date__icontains = search_str, owner = request.user)\
+               | Expense.objects.filter(description__icontains = search_str, owner = request.user) \
+                    | Expense.objects.filter(category__icontains = search_str, owner = request.user)
 
         data = expense.values()
         return JsonResponse(list(data), safe=False)

@@ -1,0 +1,130 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Dashboard
+{% endblock title %}
+{% block content %}
+<div class="container mt-4 ">
+    <div class="row">
+        <div class="col-sm-8 bg-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Income</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Income</li>
+                </ol>
+            
+            </nav>
+        </div>
+    
+        <div class="col-sm-4 ">
+            <a href="{% url 'add-income'%}" class="btn btn-primary">Add Income</a>
+            <a href="{% url 'add-source' %}" class="btn btn-primary my-md-2 my-sm-2">Add Source</a>
+        </div>
+        </div>
+        {% include 'partials/messages.html'%}
+        
+          
+        <div class="row mt-4">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <form action="" method="post" onsubmit="return false;">
+                        {%csrf_token%}
+                        <input type="text" class="form-control form-control-sm" id="searchField" placeholder="search" name="searchText">
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="contaner ">
+       <div class="app-table">
+        <table class="table table-stripped table-hover">
+            <thead>
+                <tr>
+                    <th>Amount ({{currency}})</th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for income in page_obj %}
+                <tr>
+                    <td>{{income.amount}}</td>
+                    <td>{{income.source}}</td>
+                    <td>{{income.description}}</td>
+                    <td>{{income.date|date:"d, M. Y"}}</td>
+                    <td><a href="{% url 'update-income' income.id%}" class="btn btn-sm btn-warning">Edit</a></td>
+                    <td>
+                        <form action="{% url 'delete-income' income.id %}" method="post">
+                            {%csrf_token%}
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                        
+                    </td>
+                </tr>
+
+                {%endfor%}
+            </tbody>
+            
+        </table>
+       </div>
+      
+
+    <div class="table-output">
+        <table class="table table-stripped table-hover">
+            <thead>
+                <tr>
+                    <th>Amount (Currency)</th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody class="t-body">
+                
+            
+            </tbody>
+            
+        </table>
+
+    </div>
+    <div class="noReslt" style="display: none;">Result not found!</div>
+
+        <nav class="pagination-container">
+            <em>
+                Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
+            </em>
+            <ul class="pagination align-end float-end me-auto pagination-sm ">
+                {% if page_obj.has_previous %}
+                <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+          
+                {% if page_obj.has_next %}
+                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
+                {% endif %}
+          
+          
+                </ul>
+          </nav>
+
+    </div>
+
+    
+    
+</div>
+
+<script src="{% static 'js/searchIncome.js' %}"></script>
+
+{% endblock content %}
