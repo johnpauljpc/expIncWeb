@@ -27,7 +27,7 @@ Dashboard
             <div class="col-md-8"></div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <form action="" method="post">
+                    <form action="" method="post" onsubmit="return false;">
                         {%csrf_token%}
                         <input type="text" class="form-control form-control-sm" id="searchField" placeholder="search" name="searchText">
                     </form>
@@ -42,7 +42,7 @@ Dashboard
         <table class="table table-stripped table-hover">
             <thead>
                 <tr>
-                    <th>Amount (Currency)</th>
+                    <th>Amount ({{currency}})</th>
                     <th>Category</th>
                     <th>Description</th>
                     <th>Date</th>

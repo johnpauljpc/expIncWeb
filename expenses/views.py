@@ -9,7 +9,7 @@ from django.http import HttpResponse, JsonResponse
 import pdb
 from django.core.paginator import Paginator
 import json
-
+from userPrefrences.models import userPrefrences
 
 def searchExpense(request):
     
@@ -37,6 +37,7 @@ class index(LoginRequiredMixin,TemplateView):
     def get(self, request):
         expense = Expense.objects.filter(owner=request.user)
         category = Category.objects.all()
+        currency = userPrefrences.objects.get(user=request.user).currency
 
         paginator = Paginator(expense, 2)
         page_number = request.GET.get('page')
@@ -44,7 +45,7 @@ class index(LoginRequiredMixin,TemplateView):
 
 
         context = {'expenses':expense, 'category':category,
-        'page_obj':page_obj}
+        'page_obj':page_obj, 'currency':currency}
         return render(request, 'index.html', context)
 
 def addExpense(request):
@@ -101,7 +102,7 @@ def updateExpense(request, id):
         # pdb.set_trace()
         expense.save()
 
-        messages.success(request, "Successfully Updates an expense!")
+        messages.success(request, "Successfully Updated an expense!")
         return redirect('expenses')
         
 

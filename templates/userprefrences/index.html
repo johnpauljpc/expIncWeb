@@ -5,6 +5,7 @@
 <div class="container">
   <h4>Preferred currency</h4>
 <hr>
+{% include 'partials/messages.html'%}
   <form action="{%url 'preference'%}" method="post">
     {% csrf_token %}
     <div class="input-group">
