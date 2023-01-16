@@ -1,0 +1,13 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+
+<h1 id="header"><img src="{% static 'img/logo.png' %}" alt="Logo" style="border-radius: 50%; max-width: 30px; max-height: 30px;" > ExpInc</h1>
+
+{% endblock branding %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
+
+{% endblock extrastyle %}
