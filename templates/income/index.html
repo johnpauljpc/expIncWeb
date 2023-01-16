@@ -49,7 +49,7 @@ Dashboard
                     <th>Description</th>
                     <th>Date</th>
                     <th>Update</th>
-                    <th>Delete</th>
+                    
                 </tr>
             </thead>
 
@@ -60,14 +60,8 @@ Dashboard
                     <td>{{income.source}}</td>
                     <td>{{income.description}}</td>
                     <td>{{income.date|date:"d, M. Y"}}</td>
-                    <td><a href="{% url 'update-income' income.id%}" class="btn btn-sm btn-warning">Edit</a></td>
-                    <td>
-                        <form action="{% url 'delete-income' income.id %}" method="post">
-                            {%csrf_token%}
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                        
-                    </td>
+                    <td><a href="{% url 'update-income' income.id%}" class="btn btn-sm btn-warning">Update</a></td>
+                    
                 </tr>
 
                 {%endfor%}
@@ -86,7 +80,7 @@ Dashboard
                     <th>Description</th>
                     <th>Date</th>
                     <th>Update</th>
-                    <th>Delete</th>
+                    
                 </tr>
             </thead>
 
@@ -98,9 +92,9 @@ Dashboard
         </table>
 
     </div>
-    <div class="noReslt" style="display: none;">Result not found!</div>
+    <div class="noResult" style="display: none;">Result not found!</div>
 
-        <nav class="pagination-container">
+        <nav class="pagination-container" id="pagination">
             <em>
                 Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
             </em>
@@ -124,9 +118,7 @@ Dashboard
     
     
 </div>
-<script>
-    console.log("ggggggggggggggggggggggggg")
-</script>
+
 <script src="{% static 'js/searchIncome.js' %}"></script>
 
 {% endblock content %}

@@ -16,13 +16,14 @@ def searchIncome(request):
     
     if request.method == 'POST':
         query = json.loads(request.body).get('searchText')
+        print('*************************  ',query,'  *****************************')
 
         # income = Expense.objects.filter(amount__istartswith = search_str, owner = request.user)\
         #     |Expense.objects.filter(date__istartswith = search_str, owner = request.user)\
         #        | Expense.objects.filter(description__istartswith = search_str, owner = request.user) \
         #             | Expense.objects.filter(category__istartswith = search_str, owner = request.user)
-        income = income.objects.filter(Q(amount__icontains=query, user=request.user) \
-            |Q(title__icontains=query, user=request.user)|Q(date__icontains=query, user=request.user))
+        income = Income.objects.filter(Q(amount__icontains=query, user=request.user) \
+            |Q(description__icontains=query, user=request.user)|Q(source__icontains=query, user=request.user)|Q(date__icontains=query, user=request.user))
 
         data = income.values()
         return JsonResponse(list(data), safe=False)

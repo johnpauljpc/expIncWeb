@@ -11,6 +11,31 @@
 
 </nav>
 <h3 class="text-center">Edit Income</h3>
+    
+<div class="row">
+    <div class="form-group  col-2">
+        <form action="{% url 'delete-income' income.id %}" method="post">
+            {%csrf_token%}
+            <button class="btn btn-outline-danger btn-sm " style="border-radius: 0%;" id="btn">Delete</button>
+        </form>
+    </div>
+    
+    <div class="col-6">
+        <small class="text-danger" style="display: none;" id="del">Record cannot be recovered when deleted!</small>
+    </div>
+    <div class="col-4">
+        <a href="{% url 'income' %}" class="btn btn-primary btn-sm float-end"> Go back</a>
+    </div>
+    
+    <script>
+        del = document.getElementById('del')
+        btn = document.getElementById('btn')
+        btn.addEventListener('mouseover', function(){
+            del.style.display = 'block'
+        })
+    </script>
+   
+</div>
 
     <div class=" card card-body">
         <form action="{% url 'update-income' income.id %}" method="post">
@@ -46,6 +71,9 @@
            
         </div>
         </form>
+    
+
         </div>
+    
 
 {% endblock content %}
