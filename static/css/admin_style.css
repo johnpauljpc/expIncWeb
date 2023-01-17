@@ -68,8 +68,17 @@ input[type=text]:focus {
     border: 5px solid var(--primary);
   }
 
-  input[type="submit"], button {
+  input[type="submit"] {
     -webkit-appearance: none;
     appearance: none;
-    width: 100%;
+    /* width: 100%; */
 }
+
+
+a.section:link, a.section:visited {
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+  text-shadow:  1px 0px 10px black;
+}
+
