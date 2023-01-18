@@ -37,7 +37,8 @@
                     <button class="btn btn-primary submitButton">Login</button>
                 </div>
             </form>
-            <small>Dont have an account yet? </small>&nbsp;<a href="{% url 'register' %}">Register</a>
+            <small class="">Dont have an account yet? </small>&nbsp;<a href="{% url 'register' %}" style="text-decoration: none; font-weight: bold;">Register</a><br>
+            <span><small class=""  >Forgot Your password? </small>&nbsp;<a href="{% url 'reset-password' %}" style="text-decoration: none; font-weight: bold;">Request new password</a></span>
             </div>
 
         </div>

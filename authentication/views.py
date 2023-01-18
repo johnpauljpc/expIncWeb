@@ -187,7 +187,7 @@ class LoginView(View):
         messages.warning(request, "Please fill all fields")
         return render(request, 'authentication/login.html')
     
-
+    
 # class LogoutView(View):
     
 #     # def get(self, request):
@@ -201,3 +201,19 @@ class LogoutView(View):
         logout(request)
         messages.info(request, "You have been logged out")
         return render(request, 'authentication/logout.html')
+
+class passwordReset(View):
+    
+
+    def get(self, request):
+        return render(request, "authentication/reset_password.html")
+
+    def post(self, request):
+        email = request.POST['email']
+        fieldValue = email
+        context = {'fieldValue':fieldValue}
+        if not validate_email(email):
+            messages.info(request, "email is not valid")
+        elif not User.objects.filter(email=email).exists():
+            messages.warning(request, "email is not registered with us")
+        return render(request, 'authentication/reset_password.html', context)
