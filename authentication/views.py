@@ -256,10 +256,24 @@ class passwordReset(View):
 
 
 class completePasswordReset(View):
+    
 
     def get(self, request, uidb64, token):
-        return render(request, 'authentication/set-new-password.html')
+        user = self.request.user
+
+        context = {
+            'uidb64': uidb64,
+            'token': token,
+            'user':user
+        }
+        return render(request, 'authentication/set-new-password.html', context)
 
     def post(self, request, uidb64, token):
-        return render(request, 'authentication/set-new-password.html')
+        user = self.request.user
+        context = {
+            'uidb64': uidb64,
+            'token': token,
+            'user':user
+        }
+        return render(request, 'authentication/set-new-password.html', context)
 
