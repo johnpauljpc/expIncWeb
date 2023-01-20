@@ -256,24 +256,59 @@ class passwordReset(View):
 
 
 class completePasswordReset(View):
-    
 
     def get(self, request, uidb64, token):
-        user = self.request.user
-
         context = {
             'uidb64': uidb64,
             'token': token,
-            'user':user
+            
         }
+        try:
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=user_id)
+
+            if not PasswordResetTokenGenerator.check_token(user, token):
+                messages.success(request, "password reset  link is invalid, please request for a new one")
+                return render(request, 'authentication/reset_password.html', context) 
+        except Exception as e:
+            pass
+            
         return render(request, 'authentication/set-new-password.html', context)
 
     def post(self, request, uidb64, token):
-        user = self.request.user
+        user_id = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=user_id)
         context = {
             'uidb64': uidb64,
             'token': token,
-            'user':user
+            
         }
-        return render(request, 'authentication/set-new-password.html', context)
+        pass1 = request.POST['password1']
+        pass2 = request.POST['password2']
+
+        if (pass1 != pass2):
+            messages.error(request, "password doesn't match!")
+            return render(request, 'authentication/set-new-password.html', context)
+        if len(pass1) < 6:
+            messages.error(request, "password too short! should be atleast 6 characters")
+            return render(request, 'authentication/set-new-password.html', context)
+        if (str(pass1)).isalnum() or (str(pass2)).isalnum(): 
+            messages.error(request, "password must have a special character")
+            return render(request, 'authentication/set-new-password.html', context)
+        
+        try:
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=user_id)
+
+            user.set_password(pass1)
+            user.save()
+            print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+            print(user)
+            messages.success(request, "Password changed successfully, You can now login with your new password")
+            return redirect('login')
+        except Exception as e:
+            messages.info(request, 'something went wrong, please try again')
+            return render(request, 'authentication/set-new-password.html', context)
+    
+        
 

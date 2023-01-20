@@ -10,20 +10,20 @@ const showPass = document.querySelector(".showPass")
 const submitButton = document.querySelector(".submitButton")
 
 const pass1Val = password1Field.textContent
-const pass2Val = password2Field.textContent 
+//const pass2Val = password2Field.textContent 
 
 const passwordToggleHandler = (e) =>{
     if (showPass.textContent === 'Show'){
         showPass.textContent = "Hide"
         password1Field.setAttribute('type', 'text')
-        password2Field.setAttribute('type', 'text')
+        //password2Field.setAttribute('type', 'text')
         //password2Field.setAttribute('type', 'text')
 
     }
     else{
         showPass.textContent = "Show"
         password1Field.setAttribute('type', 'password')
-        password2Field.setAttribute('type', 'password')
+        //password2Field.setAttribute('type', 'password')
     }
 }
 

@@ -37,7 +37,10 @@ class index(LoginRequiredMixin,TemplateView):
     def get(self, request):
         expense = Expense.objects.filter(owner=request.user)
         category = Category.objects.all()
-        currency = userPrefrences.objects.get(user=request.user).currency
+        try:
+            currency = userPrefrences.objects.get(user=request.user).currency
+        except:
+            currency = None
 
         paginator = Paginator(expense, 2)
         page_number = request.GET.get('page')
