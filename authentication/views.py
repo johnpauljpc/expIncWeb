@@ -267,8 +267,9 @@ class completePasswordReset(View):
             user_id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=user_id)
 
-            if not PasswordResetTokenGenerator.check_token(user, token):
-                messages.success(request, "password reset  link is invalid, please request for a new one")
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                messages.info(request, "password reset  link is invalid, please request for a new one")
+                
                 return render(request, 'authentication/reset_password.html', context) 
         except Exception as e:
             pass
@@ -283,6 +284,10 @@ class completePasswordReset(View):
             'token': token,
             
         }
+        if not PasswordResetTokenGenerator().check_token(user, token):
+                messages.info(request, "password reset  link is invalid, please request for a new one")
+                
+                return render(request, 'authentication/reset_password.html', context) 
         pass1 = request.POST['password1']
         pass2 = request.POST['password2']
 
@@ -302,8 +307,7 @@ class completePasswordReset(View):
 
             user.set_password(pass1)
             user.save()
-            print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
-            print(user)
+           
             messages.success(request, "Password changed successfully, You can now login with your new password")
             return redirect('login')
         except Exception as e:
