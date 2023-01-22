@@ -10,6 +10,8 @@ import pdb
 from django.core.paginator import Paginator
 import json
 from userPrefrences.models import userPrefrences
+import datetime
+
 
 def searchExpense(request):
     
@@ -120,3 +122,35 @@ def deleteExpense(request, id):
     expense.delete()
     messages.info(request, f"{expense.description} deleted")
     return redirect('expenses')
+
+def expense_category_summary(request):
+    todays_date = datetime.date.today()
+    last_six_months = todays_date - datetime.timedelta(30*6)
+
+    expense = Expense.objects.filter(owner= request.user, date__gte = last_six_months, date__lte = todays_date)
+
+    finalrep = {}
+
+    def get_category(expense):
+        return expense.category
+
+    category_list = list(set(map(get_category, expense)))
+
+    def get_expense_category_amount(category):
+        amount = 0
+
+        filtered_category = expense.filter(category=category)
+        for item in filtered_category:
+            amount += item.amount
+        return amount
+
+    for x in expense:
+        for y in category_list:
+            finalrep[y] = get_expense_category_amount(y)
+
+    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+
+
+def stats(request):
+    
+    return render(request, 'partials/stats.html')

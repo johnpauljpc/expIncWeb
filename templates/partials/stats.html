@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Dashboard
+{% endblock title %}
+{% block content %}
+<div class="container mt-4 ">
+    <div class="row">
+        <div class="col-sm-8 bg-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Expense</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Expense</li>
+                </ol>
+            
+            </nav>
+        </div>
+    
+        <div class="col-sm-4 ">
+            <a href="{% url 'expenses' %}" class="btn btn-primary">Back</a>
+        </div>
+
+
+        <div style="width: 500; height: 500;">
+            <p style="text-align: center;" class="lead">Expense per category</p>
+            <canvas id="myChart" ></canvas>
+          </div>
+          
+          
+       
+          
+
+
+        </div>
+
+    
+    </div>
+
+ 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/stats.js' %}"></script>
+
+{% endblock content %}
