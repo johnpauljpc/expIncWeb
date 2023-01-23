@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 import json
 from userPrefrences.models import userPrefrences
 import datetime
+import csv
 
 
 def searchExpense(request):
@@ -154,3 +155,21 @@ def expense_category_summary(request):
 def stats(request):
     
     return render(request, 'partials/stats.html')
+
+
+def export_csv(request):
+    
+    response = HttpResponse(content_type = "text/csv")
+    response['Content-Dispostion'] = 'attachment; filename = expenses'+str(datetime.datetime.now())+'.csv'
+
+    writer = csv.writer(response)
+
+    writer.writerow(['Amount', 'Description', 'Category', 'Date'])
+
+    expense = Expense.objects.filter(owner = request.user)
+
+    for ex in expense:
+        writer.writerow([ex.amount, ex.description, ex.category,ex.date])
+
+
+    return response

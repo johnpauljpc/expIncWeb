@@ -24,8 +24,16 @@ Dashboard
         </div>
         {% include 'partials/messages.html'%}
         <div class="row mt-4">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <a href="{% url ''}" class="btn btn-warning">Export to PDF</a>
+            </div>
+            <div class="col-md-3">
+                <a href="" class="btn btn-light">Export to Exel</a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'export_csv' %}" class="btn btn-secondary">Export to CSV</a>
+            </div>
+            <div class="col-md-3">
                 <div class="form-group">
                     <form action="" method="post" onsubmit="return false;">
                         {%csrf_token%}

@@ -1,16 +1,21 @@
+const renderChat =(data, labels) =>{
 
-const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('myChart');
 
 new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: labels,
     datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      label: 'last 6 months expense',
+      data: data,
       backgroundColor: [
         'rgba(123,212,222, 0.5)',
-        'red',
+        'orange',
+        'green',
+        'blue',
+        'pale',
+
       ],
       borderWidth: 1
     }]
@@ -23,3 +28,23 @@ new Chart(ctx, {
     },
   }
 });
+
+
+}
+
+const getChartData = ()=>{
+  fetch('/expense-summary/')
+  .then(res => res.json())
+  .then(results=>{
+    console.log('data', results)
+    const category_data = results.expense_category_data
+    const [labels, data] = [Object.keys(category_data),
+    Object.values(category_data)]
+
+    renderChat(data, labels)
+    
+  })
+}
+
+
+document.onload = getChartData()
