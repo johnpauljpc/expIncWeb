@@ -12,6 +12,7 @@ import json
 from userPrefrences.models import userPrefrences
 import datetime
 import csv
+import xlwt
 
 
 def searchExpense(request):
@@ -160,7 +161,7 @@ def stats(request):
 def export_csv(request):
     
     response = HttpResponse(content_type = "text/csv")
-    response['Content-Dispostion'] = 'attachment; filename = expenses'+str(datetime.datetime.now())+'.csv'
+    response['Content-Disposition'] = 'attachment; filename='+str(request.user)+'_expense_'+str(datetime.date.today())+'.csv'
 
     writer = csv.writer(response)
 
@@ -172,4 +173,40 @@ def export_csv(request):
         writer.writerow([ex.amount, ex.description, ex.category,ex.date])
 
 
+    return response
+
+
+def export_excel(request):
+    response = HttpResponse(content_type ='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename='+str(request.user)+ '_expenses_'+ str(datetime.date.today())+'.xls'
+
+    wb = xlwt.Workbook()
+    ws = wb.add_sheet('Expenses')
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Amount', 'Description', 'Category', 'Date']
+
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    rows = Expense.objects.filter(owner = request.user).values_list('amount', 'description', 'category', 'date', )
+
+
+    for row in rows:
+        row_num += 1
+
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, str(columns[col_num]), font_style)
+
+    wb.save(response)
+
+    return response
+
+
+
+
+def export_pdf(request):
     return response
