@@ -13,7 +13,7 @@ urlpatterns = [
     path("stats/", stats, name='stats'),
     path('to-csv/', export_csv, name='export_csv'),
     path('to-excel/', export_excel, name='export_excel'),
-    path('to-pdf/', export_pdf)
+    path('to-pdf/', export_pdf, name='export_pdf')
 
 
 ]
