@@ -14,6 +14,16 @@ import datetime
 import csv
 import xlwt
 
+#modules for pdf generation
+from django.template.loader import render_to_string, get_template
+import os
+from io import BytesIO
+from xhtml2pdf import pisa
+# os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
+# from weasyprint import HTML
+import tempfile
+from django.db.models import Sum
+
 
 def searchExpense(request):
     
@@ -207,6 +217,41 @@ def export_excel(request):
 
 
 
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
 
-def export_pdf(request):
-    return response
+data = {
+"company": "Dennnis Ivanov Company",
+"address": "123 Street name",
+"city": "Vancouver",
+"state": "WA",
+"zipcode": "98663",
+
+
+"phone": "555-555-2345",
+"email": "youremail@dennisivy.com",
+"website": "dennisivy.com",
+}
+def export_pdf(response):
+    pdf = render_to_string('pdf-output.html', data)
+    return HttpResponse(pdf, content_type='application/pdf')
+    # response = HttpResponse(content_type="application/vnd.pdf")
+    # response['Content-Disposition'] = 'attachment; filename=Expense_'+str(request.user)+".pdf"
+    # response['Content-Transfer-Encoding'] = "binary"
+    # html_string = render_to_string('pdf-output', {'expense': [], 'total':0})
+    # html = HTML(string = html_string)
+
+    # result = html.write_pdf()
+    # with tempfile.NamedTemporaryFile(delete=True) as output:
+    #     output.write(result)
+    #     output.flush
+
+    #     output = open(output.name, 'rb')
+    #     response.write(output.read())
+    # return response
