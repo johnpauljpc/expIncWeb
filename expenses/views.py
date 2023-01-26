@@ -228,6 +228,7 @@ def export_excel(request):
 def export_pdf(request):
     template_path = 'pdf-output.html'
     expense = Expense.objects.filter(owner = request.user)
+    sum = expense.aggregate(Sum('amount'))
     user = request.user
     
     
@@ -235,10 +236,10 @@ def export_pdf(request):
         currency = userPrefrences.objects.get(user = request.user).currency
     except:
         currency = None
-    context = {'expense':expense, 'currency':currency, 'user':user}
+    context = {'expense':expense, 'currency':currency, 'user':user, 'total':sum['amount__sum']}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=' +str(user)+'_expense_'+str(datetime.date.today())+ '.pdf'
+    # response['Content-Disposition'] = 'attachment; filename=' +str(user)+'_expense_'+str(datetime.date.today())+ '.pdf'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)

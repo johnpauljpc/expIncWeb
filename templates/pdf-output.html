@@ -6,20 +6,13 @@
     <title>PDF Output</title>
 
     <style>
-        @page {
-        size: a4 portrait;
-        @frame header_frame {           /* Static Frame */
-            -pdf-frame-content: header_content;
-            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
-        }
-        @frame content_frame {          /* Content Frame */
-            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
-        }
-        @frame footer_frame {           /* Another static Frame */
-            -pdf-frame-content: footer_content;
-            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-        }
-    }
+       @page{
+        size: 'A4';
+        margin: 1cm 1.5cm;
+
+       
+       }
+       
     </style>
 </head>
 
@@ -28,10 +21,15 @@
 <body>
 
 
-
+<div>
+<center style="padding-bottom: 1cm;">
+        <img src="static/img/logo.png" alt="logo" width="100" height="100">
+    <br> <em style="font-size: 20px;">ExpInc.com</em>
+</center>
     {% if expense %}
-   
-    <table style="border-color: rgb(213, 219, 219); border-style: solid;
+    <div>
+     <b style="font-size: 21px; color: rgb(153, 145, 145);">Summary of Your Expenses</b>
+     <table style="border-color: rgb(213, 219, 219); border-style: solid;
      border-width: 0; font-size: 20px; border-bottom-width: 1px; padding: 5px 0 0 0; 
      background-color: rgb(233, 240, 237);">
             <thead >
@@ -45,7 +43,7 @@
                     
                 </tr>
             </thead>
-
+ 
             {% for exp in expense %}
             <tbody style=" text-align: center;">
                 <tr>
@@ -54,15 +52,23 @@
                 <td> {{exp.discription}}</td>
                 <td>{{exp.amount}}</td>
                 <td> {{exp.date}}</td>
-                
             </tr>
                 
                 </tbody>
             {% endfor %}
-
+            <tr>
+                <td colspan="2"><b>Total:</b></td>
+                <td colspan="2">{{total}}</td>
+                
+            </tr>
+ 
     </table>
-    {%else%}
-    <p style="font-size: 24px; color: chocolate;">Dear {{user}}, You dont have any record yet!</p>
-    {% endif %}
+    </div>
+     {%else%}
+     <p style="font-size: 24px; color: chocolate;">Dear {{user}}, You dont have any record yet!</p>
+     {% endif %}
+
+</div>
+   
 </body>
 </html>
