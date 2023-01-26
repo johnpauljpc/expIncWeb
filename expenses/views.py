@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.utils.timezone import now
 from django.http import HttpResponse, JsonResponse
 import pdb
+from django.views import View
 from django.core.paginator import Paginator
 import json
 from userPrefrences.models import userPrefrences
@@ -15,13 +16,13 @@ import csv
 import xlwt
 
 #modules for pdf generation
-from django.template.loader import render_to_string, get_template
 import os
-from io import BytesIO
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
 from xhtml2pdf import pisa
-# os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
-# from weasyprint import HTML
-import tempfile
+from django.contrib.staticfiles import finders
+
 from django.db.models import Sum
 
 
@@ -217,41 +218,36 @@ def export_excel(request):
 
 
 
-def render_to_pdf(template_src, context_dict={}):
-	template = get_template(template_src)
-	html  = template.render(context_dict)
-	result = BytesIO()
-	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-	if not pdf.err:
-		return HttpResponse(result.getvalue(), content_type='application/pdf')
-	return None
 
-data = {
-"company": "Dennnis Ivanov Company",
-"address": "123 Street name",
-"city": "Vancouver",
-"state": "WA",
-"zipcode": "98663",
+# def export_pdf(request):
+#     expense = Expense.objects.filter(owner = request.user)
 
 
-"phone": "555-555-2345",
-"email": "youremail@dennisivy.com",
-"website": "dennisivy.com",
-}
-def export_pdf(response):
-    pdf = render_to_string('pdf-output.html', data)
-    return HttpResponse(pdf, content_type='application/pdf')
-    # response = HttpResponse(content_type="application/vnd.pdf")
-    # response['Content-Disposition'] = 'attachment; filename=Expense_'+str(request.user)+".pdf"
-    # response['Content-Transfer-Encoding'] = "binary"
-    # html_string = render_to_string('pdf-output', {'expense': [], 'total':0})
-    # html = HTML(string = html_string)
 
-    # result = html.write_pdf()
-    # with tempfile.NamedTemporaryFile(delete=True) as output:
-    #     output.write(result)
-    #     output.flush
 
-    #     output = open(output.name, 'rb')
-    #     response.write(output.read())
-    # return response
+def export_pdf(request):
+    template_path = 'pdf-output.html'
+    expense = Expense.objects.filter(owner = request.user)
+    user = request.user
+    
+    
+    try:
+        currency = userPrefrences.objects.get(user = request.user).currency
+    except:
+        currency = None
+    context = {'expense':expense, 'currency':currency, 'user':user}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=' +str(user)+'_expense_'+str(datetime.date.today())+ '.pdf'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
