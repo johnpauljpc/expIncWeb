@@ -239,7 +239,7 @@ def export_pdf(request):
     context = {'expense':expense, 'currency':currency, 'user':user, 'total':sum['amount__sum']}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename=' +str(user)+'_expense_'+str(datetime.date.today())+ '.pdf'
+    response['Content-Disposition'] = 'attachment; filename=' +str(user)+'_expense_'+str(datetime.date.today())+ '.pdf'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
