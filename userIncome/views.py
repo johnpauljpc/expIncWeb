@@ -43,7 +43,7 @@ class index(LoginRequiredMixin,TemplateView):
         source = Source.objects.all()
         currency = userPrefrences.objects.get(user=request.user).currency
 
-        paginator = Paginator(income, 2)
+        paginator = Paginator(income, 4)
         page_number = request.GET.get('page')
         page_obj = Paginator.get_page(paginator, page_number)
 

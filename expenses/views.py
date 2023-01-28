@@ -57,7 +57,7 @@ class index(LoginRequiredMixin,TemplateView):
         except:
             currency = None
 
-        paginator = Paginator(expense, 2)
+        paginator = Paginator(expense, 4)
         page_number = request.GET.get('page')
         page_obj = Paginator.get_page(paginator, page_number)
 
