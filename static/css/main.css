@@ -57,3 +57,38 @@
   .showPass:hover{
     transform: scale(1.2);
   }
+
+
+  .btn-primary{
+    background: rgb(99, 145, 145)!important;
+    
+    
+  }
+  .btn-primary:hover{
+    background: rgb(43, 151, 151)!important;
+    
+    border-radius: 20px;
+  }
+
+  .navbar-brand{
+    background: none!important;
+    box-shadow: none!important;
+    text-align: center;
+    
+  }
+  .brand{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    
+  }
+
+  @media only screen and (max-width: 768px) {
+   
+
+    table{
+      background-color: rgb(73, 94, 73);
+      font-size: 15px!important;
+    }
+    
+  }
