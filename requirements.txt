@@ -8,3 +8,7 @@ tzdata==2022.6
 whitenoise==6.2.0
 django-cors-headers==3.13.0
 validate-email==1.3
+WTForms==3.0.1
+xhtml2pdf==0.2.8
+xlwt==1.3.0
+validate-email==1.3
