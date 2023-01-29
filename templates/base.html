@@ -9,6 +9,7 @@
     <title>ExpenseIncome | {% block title %} {% endblock title%}</title>
 
     
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
 <link href="{% static 'css/main.css' %}" rel="stylesheet" >
@@ -72,9 +73,11 @@
 <div class="container-fluid">
   <div class="row">
    
-
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <main class="col-2">
       {% include 'partials/sidebar.html' %}
+    </main>
+    <main class="col-9  ms-sm-auto col-lg-10 px-4">
+      
 
       {% block content %}
 

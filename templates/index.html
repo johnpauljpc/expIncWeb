@@ -1,6 +1,7 @@
 
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 Dashboard
 {% endblock title %}
@@ -23,17 +24,31 @@ Dashboard
         </div>
         </div>
         {% include 'partials/messages.html'%}
-        <div class="row mt-4">
-            <div class="col-md-3">
-                <a href="{% url 'export_pdf' %}" class="btn btn-warning">Export to PDF</a>
+        <div class="row mt-4 ">
+            <em >Export To:</em>
+            <div class="col-8">
+                
+                <div class="row">
+                   
+
+                    <div class="col-4">
+                        
+                        <a href="{% url 'export_pdf' %}" class="btn btn-danger  rounded">PDF <i class="fa fa-file-pdf-o"></i> </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{% url 'export_csv' %}" class="btn btn-warning rounded">CSV </a>
+                    </div>
+
+
+                    <div class="col-4">
+                        <a href="{% url 'export_excel'%}" class="btn btn-success rounded" style="min-width:50px;">Excel <i class="fa fa-file-excel-o"></i></a>
+                    </div>
+                    
+
+                </div>
+
             </div>
-            <div class="col-md-3">
-                <a href="{% url 'export_excel'%}" class="btn btn-light">Export to Exel</a>
-            </div>
-            <div class="col-md-3">
-                <a href="{% url 'export_csv' %}" class="btn btn-secondary">Export to CSV</a>
-            </div>
-            <div class="col-md-3">
+            <div class="col-4">
                 <div class="form-group">
                     <form action="" method="post" onsubmit="return false;">
                         {%csrf_token%}
@@ -50,7 +65,7 @@ Dashboard
         <table class="table table-stripped table-hover">
             <thead>
                 <tr>
-                    <th>Amount ({{currency}})</th>
+                    <th>Amount ({{currency|slice:"3"}})</th>
                     <th>Category</th>
                     <th>Description</th>
                     <th>Date</th>

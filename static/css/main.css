@@ -87,8 +87,14 @@
    
 
     table{
-      background-color: rgb(73, 94, 73);
-      font-size: 15px!important;
+      
+      font-size: 12px!important;
+      max-width: 100%!important;
+      
+    }
+    .txt{
+      
+      font-size: small;
     }
     
   }
