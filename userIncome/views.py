@@ -41,7 +41,13 @@ class index(LoginRequiredMixin,TemplateView):
     def get(self, request):
         income = Income.objects.filter(user=request.user)
         source = Source.objects.all()
-        currency = userPrefrences.objects.get(user=request.user).currency
+        try:
+            currency = userPrefrences.objects.get(user=request.user).currency
+        except Exception as e:
+            messages.error(request, f'{e} >>  So, please select your\n preffered currency ')
+            return redirect('preference')
+        
+        
 
         paginator = Paginator(income, 4)
         page_number = request.GET.get('page')

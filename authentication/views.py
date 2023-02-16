@@ -135,8 +135,8 @@ class registrationView(View):
                 # EmailThread(email).start()
 
                 user.save()
-                messages.success(request, "account created")
-                return render(request, 'authentication/register.html')
+                messages.info(request, "account created, activation link has been sent to your mail, check your spam folder if you dont see it")
+                return render(request, 'authentication/login.html')
 
         return render(request, 'authentication/register.html')
 
