@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'userPrefrences',
     'userIncome',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -157,7 +158,7 @@ EMAIL_HOST_USER = 'jpcdjango@gmail.com'
 EMAIL_HOST_PASSWORD = 'srcgjwixxkpnilsa'
 
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 LOGOUT_URL = 'login'
 LOGIN_URL = 'login'
