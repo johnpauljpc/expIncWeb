@@ -49,7 +49,7 @@ class index(LoginRequiredMixin,TemplateView):
         
         
 
-        paginator = Paginator(income, 4)
+        paginator = Paginator(income, 6)
         page_number = request.GET.get('page')
         page_obj = Paginator.get_page(paginator, page_number)
 
