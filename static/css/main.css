@@ -92,8 +92,8 @@ body{
   }
 
   .navbar-brand{
-    background: none!important;
-    box-shadow: none!important;
+    background: none;
+    box-shadow: none;
     text-align: center;
     
   }
